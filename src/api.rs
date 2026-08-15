@@ -200,3 +200,52 @@ pub extern "C" fn rosu_pp_calc_pp_from_attrs(
         .calculate()
         .pp()
 }
+#[unsafe(no_mangle)]
+pub extern "C" fn rosu_pp_calc_pp_from_attrs_accuracy(
+    attrs: *const DifficultyAttributes,
+    mods: u32,
+    lazer: bool,
+    accuracy: f64,
+    combo: u32,
+    n_miss: u32,
+) -> f64 {
+    if attrs.is_null() {
+        return 0.0;
+    }
+
+    let attrs = unsafe { &*attrs };
+    attrs.clone()
+        .performance()
+        .mods(mods)
+        .lazer(lazer)
+        .combo(combo)
+        .accuracy(accuracy)
+        .misses(n_miss)
+        .calculate()
+        .pp()
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn rosu_pp_calc_pp_from_attrs_taiko_100(
+    attrs: *const DifficultyAttributes,
+    mods: u32,
+    lazer: bool,
+    combo: u32,
+    n100: u32,
+    n_miss: u32,
+) -> f64 {
+    if attrs.is_null() {
+        return 0.0;
+    }
+
+    let attrs = unsafe { &*attrs };
+    attrs.clone()
+        .performance()
+        .mods(mods)
+        .lazer(lazer)
+        .combo(combo)
+        .n100(n100)
+        .misses(n_miss)
+        .calculate()
+        .pp()
+}
